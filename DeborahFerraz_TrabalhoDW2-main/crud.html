@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel do Gerente - Pixel Peach</title>
+  <link rel="stylesheet" href="./assets/css/crud.css"/>
+</head>
+<body>
+  <div class="painel">
+    <h1>Painel do Gerente 💼</h1>
+
+    <div class="resumo">
+      <p>Total de Produtos: <span id="totalProdutos">0</span></p>
+      <p>Em Promoção: <span id="totalPromocoes">0</span></p>
+      <p>Total de Categorias: <span id="totalCategorias">0</span></p>
+    </div>
+
+    <h2>Adicionar Novo Produto</h2>
+    <form id="formProduto" enctype="multipart/form-data">
+      <input type="text" id="nomeProduto" placeholder="Nome do produto" required>
+      <input type="number" id="precoProduto" placeholder="Preço" required>
+
+      <select id="categoriaProduto" required>
+        <option value="">Selecione a categoria</option>
+        <option value="blusas">Blusas</option>
+        <option value="calcas">Calças</option>
+        <option value="vestidos">Vestidos</option>
+        <option value="saias">Saias</option>
+        <option value="acessorios">Acessórios</option>
+      </select>
+
+      <input type="file" id="imagemProduto" accept="image/*" required>
+
+      <label><input type="checkbox" id="produtoPromocao"> Está em promoção?</label>
+      <button type="submit">Adicionar Produto</button>
+    </form>
+
+    <h2>Produtos Cadastrados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Categoria</th>
+          <th>Promoção</th>
+          <th>Imagem</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaProdutos"></tbody>
+    </table>
+
+    <h2>Usuários Cadastrados</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Senha</th>
+          <th>CPF</th>
+          <th>Nascimento</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Rua</th>
+          <th>Número</th>
+          <th>CEP</th>
+          <th>Papel</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaUsuarios"></tbody>
+    </table>
+  </div>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+    <button class="btn-padrao" onclick="salvarTudo()">Salvar Alterações</button>
+    <button class="btn-padrao" onclick="window.location.href='index.html'">Voltar para a Loja</button>
+  </div>
+
+  <script src="./assets/js/crud.js"></script>
+</body>
+</html>
