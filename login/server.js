@@ -47,20 +47,27 @@ app.post("/register", (req, res) => {
   const role = email.endsWith("@pixelpeach.com") ? "gerente" : "cliente";
   const newUser = { name, cpf, birthdate, email, password, role, cidade, estado, rua, numero, cep };
 
-  const existingEmails = [];
+  let users = [];
+
   fs.createReadStream(USERS_FILE)
     .pipe(csv())
-    .on("data", (row) => {
-      if (row.email === email) existingEmails.push(row.email);
-    })
+    .on("data", (row) => users.push(row))
     .on("end", () => {
-      if (existingEmails.length > 0) return res.status(400).json({ error: "Email já cadastrado" });
+      const emailExiste = users.some(user => user.email.trim().toLowerCase() === email.trim().toLowerCase());
+      if (emailExiste) return res.status(400).json({ error: "Email já cadastrado" });
 
-      const csvLine = `${name},${cpf},${birthdate},${email},${password},${role},${cidade},${estado},${rua},${numero},${cep}\n`;
-      fs.appendFileSync(USERS_FILE, csvLine);
-      res.status(201).json(newUser);
+      const fields = ["name", "cpf", "birthdate", "email", "password", "role", "cidade", "estado", "rua", "numero", "cep"];
+      const csvLine = parse([newUser], { fields, header: false });
+fs.appendFileSync(USERS_FILE, "\n" + csvLine);
+
+
+      fs.appendFile(USERS_FILE, csvLine, (err) => {
+        if (err) return res.status(500).json({ error: "Erro ao salvar usuário" });
+        res.status(201).json(newUser);
+      });
     });
 });
+
 
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
